@@ -1,5 +1,5 @@
-import * as THREE from "https://esm.sh/three@0.158.0";
-import { OrbitControls } from "https://esm.sh/three@0.158.0/examples/jsm/controls/OrbitControls";
+import * as THREE from "https://esm.sh/three@0.181.0";
+import { OrbitControls } from "https://esm.sh/three@0.181.0/examples/jsm/controls/OrbitControls";
 
 function render({ model, el }) {
   // Get the actual container size
@@ -18,12 +18,11 @@ function render({ model, el }) {
   controls.addEventListener('change', () => renderer.render(scene, camera));
   
   // Define points for connected lines
-  const points = [];
-  points.push(new THREE.Vector3(-2, 0, 0));
-  points.push(new THREE.Vector3(0, 2, 0));
-  points.push(new THREE.Vector3(2, 0, 0));
-  points.push(new THREE.Vector3(0, -2, 0));
-  points.push(new THREE.Vector3(-2, 0, 0));
+  const line_coords = model.get("value");
+  console.log("Linestring:", line_coords);
+  const points = line_coords.map(coord => 
+        new THREE.Vector3(coord[0], coord[1], 0)
+      );
   
   // Create line geometry
   const geometry = new THREE.BufferGeometry().setFromPoints(points);

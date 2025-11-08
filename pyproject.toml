@@ -7,4 +7,5 @@ requires-python = ">=3.13"
 dependencies = [
     "anywidget[dev]>=0.9.18",
     "jupyterlab>=4.4.10",
+    "shapely>=2.1.2",
 ]
