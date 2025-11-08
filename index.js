@@ -1,12 +1,21 @@
-import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.module.js";
+import * as THREE from "https://esm.sh/three@0.158.0";
+import { OrbitControls } from "https://esm.sh/three@0.158.0/examples/jsm/controls/OrbitControls";
 
 function render({ model, el }) {
+  // Get the actual container size
+  const width = el.clientWidth;
+  const height = 600; // or el.clientHeight if you want dynamic height
+  
   // Scene, Camera, Renderer
   const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(75, 400/400, 0.1, 1000);
+  const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
   const renderer = new THREE.WebGLRenderer();
-  renderer.setSize(400, 400);
+  renderer.setSize(width, height);
   el.appendChild(renderer.domElement);
+  
+  // Add OrbitControls
+  const controls = new OrbitControls(camera, renderer.domElement);
+  controls.addEventListener('change', () => renderer.render(scene, camera));
   
   // Define points for connected lines
   const points = [];
@@ -14,7 +23,7 @@ function render({ model, el }) {
   points.push(new THREE.Vector3(0, 2, 0));
   points.push(new THREE.Vector3(2, 0, 0));
   points.push(new THREE.Vector3(0, -2, 0));
-  points.push(new THREE.Vector3(-2, 0, 0)); // Close the shape
+  points.push(new THREE.Vector3(-2, 0, 0));
   
   // Create line geometry
   const geometry = new THREE.BufferGeometry().setFromPoints(points);
@@ -24,7 +33,6 @@ function render({ model, el }) {
   scene.add(line);
   camera.position.z = 5;
   
-  // Render once
   renderer.render(scene, camera);
 }
 
