@@ -35,4 +35,5 @@ function render({ model, el }) {
   renderer.render(scene, camera);
 }
 
-export default { render };
+// the timeout is needed to render in vscode see discussion here https://github.com/manzt/anywidget/issues/904#issuecomment-3518162092
+export default { render: (ctx) => setTimeout(() => render(ctx), 0) };;
